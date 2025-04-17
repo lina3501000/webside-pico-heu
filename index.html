@@ -1,9 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
-  <title>My Pico W Website</title>
+  <meta charset="UTF-8">
+  <title>Pico Messwerte</title>
 </head>
 <body>
-  <h1>Hello from Raspberry Pi Pico W!</h1>
+  <h1>Messwerte vom Raspberry Pi Pico W</h1>
+  <p>Temperatur: <span id="temp">Lade...</span></p>
+  <p>Zeit: <span id="time">Lade...</span></p>
+
+  <script>
+    async function loadData() {
+      const response = await fetch("https://raw.githubusercontent.com/lina3501000/webside-pico-heu/main/data.json");
+      const data = await response.json();
+      document.getElementById("temp").textContent = data.temperature + " °C";
+      document.getElementById("time").textContent = data.time;
+    }
+
+    loadData();
+    setInterval(loadData, 60000); // alle 60 Sekunden aktualisieren
+  </script>
 </body>
 </html>
+
